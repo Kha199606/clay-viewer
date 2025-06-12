@@ -558,3 +558,17 @@ $(document).on('click', 'a[href^="http"]', function(event) {
     event.preventDefault();
     openURL(this.href);
 });
+
+window.addEventListener('DOMContentLoaded', function() {
+    // Đảm bảo viewer đã được khởi tạo và có hàm loadGLB hoặc loadModel
+    if (window.viewer && typeof window.viewer.loadGLB === 'function') {
+        fetch('model.glb')
+            .then(response => response.arrayBuffer())
+            .then(buffer => {
+                window.viewer.loadGLB(buffer);
+            })
+            .catch(err => {
+                console.error('Không thể tự động load model.glb:', err);
+            });
+    }
+});
